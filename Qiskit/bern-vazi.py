@@ -5,20 +5,19 @@ from qiskit.tools.visualization import plot_histogram
 secretnumber = '101001'
 #6+1 qubits, 6 classical bits
 circuit = QuantumCircuit(6+1, 6)
-circuit.h([0,1,2,3,4,5])
-circuit.x(6)
-circuit.h(6)
+circuit.h(range(len(secretnumber)))
+circuit.x(len(secretnumber))
+circuit.h(len(secretnumber))
 
 circuit.barrier()
 
-#depicting 1 and 0 bits
-circuit.cx(5, 6)
-circuit.cx(3, 6)
-circuit.cx(0, 6)
+for ii, yesno in enumerate(reversed(secretnumber)):
+    if yesno='1':
+        circuit.cx(ii, len(secretnumber))
 
 circuit.barrier()
-circuit.h([0,1,2,3,4,5])
-circuit.measure([0,1,2,3,4,5], [0,1,2,3,4,5])
+circuit.h(range(len(secretnumber)))
+circuit.measure(range(len(secretnumber)), range(len(secretnumber)))
 
 circuit.draw(output='mp1')
 
